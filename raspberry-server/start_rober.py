@@ -25,6 +25,8 @@ class MyTCPHandler(SocketServer.StreamRequestHandler):
             self.move_robot()
         elif command == "undo":
             self.undo_robot()
+        else:
+            print command
         print self.data
         self.wfile.write("1")
 
