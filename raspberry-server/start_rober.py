@@ -2,7 +2,7 @@ import sys
 import Robot
 import SocketServer
 import time
-class MyTCPHandler(SocketServer.StreamRequestHandler):
+class MyTCPHandler(SocketServer.BaseRequestHandler):
     """
     The request handler class for our server.
 
@@ -21,14 +21,13 @@ class MyTCPHandler(SocketServer.StreamRequestHandler):
     def handle(self):
         self.data = self.rfile.readline().split()
         command = self.data[0]
+        print command
         if command == "move":
             self.move_robot()
         elif command == "undo":
             self.undo_robot()
-        else:
-            print command
         print self.data
-        self.wfile.write("1")
+        self.request.sendall(self.data.upper())
 
     def move_robot(self):
         x, y = self.data[1:]

@@ -72,44 +72,55 @@ class PS4Controller(object):
             elif event.type == pygame.JOYHATMOTION:
                 self.hat_data[event.hat] = event.value
 
-            # Insert your code on what you would like to happen for each event here!
-            # In the current setup, I have the state simply printing out to the screen.
-
-        os.system('clear')
-
         axis=self.axis_data
-        if not axis:
-            return self.x,self.y
+
         if 0 in axis:
             self.x=axis[0]
-        if 1 in axis:
-            self.y=-1*axis[1]
+
         if self.button_data[7]:
             self.x*=2
             self.y*=2
-        return self.x,self.y
-        # pprint.pprint()
+        if self.button_data[2]:
+            return "exit"
+        return "move "+str(self.x)+" "+str(self.y)+"\n"
 
 if __name__=="__main__":
     global ps4
     ps4 = PS4Controller()
     ps4.init()
 
-    atexit.register(close)
+    otraip = "192.168.0.19"
 
-    f = os.popen('ifconfig wlp4s0 | grep "inet" | cut -d: -f2 | cut -d" " -f1')
-    myip=f.read().strip()
-    otraip=sys.argv[1]
+    HOST, PORT = otraip, 9999
+    print "hola"
+    while True:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        print "hola"
+        sock.connect((HOST, PORT))
+        print "hola"
+        info = ps4.listen()
+        if info == "exit":
+            break
+        sock.sendall(info)
+        received = sock.recv(1024)
+    sock.close()
 
-    print "Conectando la camara del robot"
-    ssh2=subprocess.Popen(["ssh",otraip,"python","test_camera_stream.py"],stdout=subprocess.PIPE)
-    time.sleep(0.5)
 
-    print "Conectando Controles"
-    ssh1=subprocess.Popen(["ssh",otraip,"sudo","python","acorrer2.py",myip],stdout=subprocess.PIPE)
-    time.sleep(0.5)
+    # atexit.register(close)
 
-    print "Conectando al stream"
+    # f = os.popen('ifconfig wlp4s0 | grep "inet" | cut -d: -f2 | cut -d" " -f1')
+    # myip=f.read().strip()
+    # otraip=sys.argv[1]
 
-    string="tcp/h264://"+otraip+":8000/"
-    vlc=subprocess.Popen(["vlc",string],stdout=subprocess.PIPE)
+    # print "Conectando la camara del robot"
+    # ssh2=subprocess.Popen(["ssh",otraip,"python","test_camera_stream.py"],stdout=subprocess.PIPE)
+    # time.sleep(0.5)
+
+    # print "Conectando Controles"
+    # ssh1=subprocess.Popen(["ssh",otraip,"sudo","python","acorrer2.py",myip],stdout=subprocess.PIPE)
+    # time.sleep(0.5)
+
+    # print "Conectando al stream"
+
+    # string="tcp/h264://"+otraip+":8000/"
+    # vlc=subprocess.Popen(["vlc",string],stdout=subprocess.PIPE)
