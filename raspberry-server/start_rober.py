@@ -1,0 +1,80 @@
+import sys
+import Robot
+import SocketServer
+class MyTCPHandler(SocketServer.StreamRequestHandler):
+    """
+    The request handler class for our server.
+
+    The orders acepted are:
+    move xspeed yspeed
+    undo
+    """
+
+    def __init__(self,*args,**kwargs):
+        super(MyTCPHandler, self).__init__(*args,**kwargs)
+        self.move_history=[]
+        self.last_move=()
+        self.last_move_start=0
+        self.robot=None
+
+    def set_robot(self,robot):
+        """
+        Set the robot that will be controlled by the server
+        """
+        self.robot = robot
+
+    def handle(self):
+        self.data = self.rfile.readline().split()
+        command = self.data[0]
+        if command == "move":
+            self.move_robot()
+        print self.data
+        self.wfile.write("1")
+
+    def move_robot(self):
+        x, y = self.data[1:]
+        try:
+            vx,vy=[int(float(i)*vmax) for i in self.data[1:].split()]
+        except:
+            vx, vy = 0, 0
+        vx/=2
+        if abs(vx) < 20:
+            vx=0
+        if abs(vy) < 20:
+            vy=0
+        self.robot.custom(vx,vy)
+
+
+HOST, PORT = sys.argv[1], 9999
+
+LEFT_TRIM = 0
+RIGHT_TRIM = 0
+
+robot = Robot.Robot(left_trim=LEFT_TRIM, right_trim=RIGHT_TRIM)
+
+# Max velocity of the robot (the max value is 255)
+global vmax
+vmax = 150
+
+while True:
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect((HOST, PORT))
+        sock.sendall("a\n")
+        received = sock.recv(1024)
+        vx,vy=[int(float(i)*vmax) for i in received.split()]
+    except:
+        vx=0
+        vy=0
+    vx/=2.
+    # print vx, vy
+    if abs(vx) < 10:
+        vx=0
+    if abs(vy) < 10:
+        vy=0
+#    print vx, vy
+    sock.close()
+    # time.sleep(0.1)
+    robot.custom(vx,vy)
+#    print vx, vy
+#    time.sleep(0.5)
