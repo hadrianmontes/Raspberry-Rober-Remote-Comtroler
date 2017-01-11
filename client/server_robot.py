@@ -76,7 +76,7 @@ class PS4Controller(object):
 
         if 0 in axis:
             self.x=axis[0]
-            self.y=axis[1]
+            self.y=-axis[1]
 
         if self.button_data[7]:
             self.x*=2
@@ -93,7 +93,6 @@ if __name__=="__main__":
     otraip = "192.168.0.19"
 
     HOST, PORT = otraip, 9999
-    print "hola"
     while True:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print "hola"
@@ -101,6 +100,8 @@ if __name__=="__main__":
         print "hola"
         info = ps4.listen()
         if info == "exit":
+            sock.sendall("move 0 0")
+            received = sock.recv(1024)
             break
         sock.sendall(info)
         received = sock.recv(1024)
