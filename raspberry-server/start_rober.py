@@ -13,7 +13,6 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
     def handle(self):
         self.data = self.request.recv(1024).split()
         command = self.data[0]
-        print command
         if command == "move":
             self.move_robot()
         elif command == "undo":
@@ -22,9 +21,8 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         self.request.sendall("1")
 
     def move_robot(self):
-        x, y = self.data[1:]
         try:
-            vx,vy=[int(float(i)*vmax) for i in self.data[1:].split()]
+            vx,vy=[int(float(i)*vmax) for i in self.data[1:]]
         except:
             vx, vy = 0, 0
         vx/=2
