@@ -32,7 +32,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
             vx=0
         if abs(vy) < 20:
             vy=0
-        self.robot.custom(vx,vy)
+        robot.custom(vx,vy)
 
 
 LEFT_TRIM = 0
