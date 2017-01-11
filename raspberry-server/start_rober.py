@@ -19,7 +19,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         elif command == "undo":
             self.undo_robot()
         print self.data
-        self.request.sendall(self.data.upper())
+        self.request.sendall("1")
 
     def move_robot(self):
         x, y = self.data[1:]
