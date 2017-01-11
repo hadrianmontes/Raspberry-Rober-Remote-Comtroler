@@ -32,6 +32,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
             vx=0
         if abs(vy) < 20:
             vy=0
+        print "moving at ",vx,vy
         robot.custom(vx,vy)
 
 

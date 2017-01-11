@@ -76,6 +76,7 @@ class PS4Controller(object):
 
         if 0 in axis:
             self.x=axis[0]
+            self.y=axis[1]
 
         if self.button_data[7]:
             self.x*=2
