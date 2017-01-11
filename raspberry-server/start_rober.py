@@ -11,7 +11,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
     """
 
     def handle(self):
-        self.data = self.rfile.readline().split()
+        self.data = self.request.recv(1024).split()
         command = self.data[0]
         print command
         if command == "move":
