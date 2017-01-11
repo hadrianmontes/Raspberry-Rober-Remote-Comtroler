@@ -8,15 +8,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
 
     The orders acepted are:
     move xspeed yspeed
-    undo
     """
-
-    def __init__(self,*args,**kwargs):
-        super(MyTCPHandler, self).__init__(*args,**kwargs)
-        self.move_history=[]
-        self.last_move=None
-        self.last_move_start=0
-        self.robot = robot
 
     def handle(self):
         self.data = self.rfile.readline().split()
@@ -40,19 +32,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
             vx=0
         if abs(vy) < 20:
             vy=0
-
-        if self.last_move is not None:
-            self.move_history.append(time.time()-self.last_move_start,self.last_move)
-        self.last_move_start = time.time()
-        self.last_move = (vx, vy)
-        print "moving to ",vx,vy
         self.robot.custom(vx,vy)
-
-    def undo_robot(self):
-        if len(self.move_history) == 0:
-            return
-        vx, vy = self.move_history.pop()[1]
-        self.robot.custom(-vx,-vy)
 
 
 LEFT_TRIM = 0
