@@ -44,6 +44,7 @@ class MyTCPHandler(SocketServer.StreamRequestHandler):
             self.move_history.append(time.time()-self.last_move_start,self.last_move)
         self.last_move_start = time.time()
         self.last_move = (vx, vy)
+        print "moving to ",vx,vy
         self.robot.custom(vx,vy)
 
     def undo_robot(self):
