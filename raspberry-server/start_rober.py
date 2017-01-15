@@ -2,6 +2,7 @@ import sys
 import Robot
 import SocketServer
 import time
+import subprocess
 class MyTCPHandler(SocketServer.BaseRequestHandler):
     """
     The request handler class for our server.
@@ -17,6 +18,12 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
             self.move_robot()
         elif command == "undo":
             self.undo_robot()
+        elif command == "camera":
+            subprocess.Popen("~/Documentos/RPi_Cam_Web_Interface/start")
+        elif command == "exit":
+            subprocess.Popen("~/Documentos/RPi_Cam_Web_Interface/stop")
+            self.data=["move","0","0"]
+            self.move_robot()
         print self.data
         self.request.sendall("1")
 

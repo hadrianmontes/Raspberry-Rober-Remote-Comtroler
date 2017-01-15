@@ -1,5 +1,5 @@
-import os
 import pygame
+import os
 import socket
 import atexit
 import subprocess
@@ -78,9 +78,19 @@ class PS4Controller(object):
             self.x=axis[0]
             self.y=-axis[1]
 
+        # Turbo
         if self.button_data[7]:
             self.x*=2
             self.y*=2
+        # Start Camera
+        if self.button_data[3]:
+            subprocess.Popen(["firefox",otraip+"/html"],
+                             stdout=subprocess.PIPE,
+                             stdin=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
+            return "camera"
+
+        # Exit
         if self.button_data[2]:
             return "exit"
         return "move "+str(self.x)+" "+str(self.y)+"\n"
@@ -90,6 +100,7 @@ if __name__=="__main__":
     ps4 = PS4Controller()
     ps4.init()
 
+    global otraip
     otraip = "192.168.0.19"
 
     HOST, PORT = otraip, 9999
@@ -100,7 +111,7 @@ if __name__=="__main__":
         print "hola"
         info = ps4.listen()
         if info == "exit":
-            sock.sendall("move 0 0")
+            sock.sendall(info)
             received = sock.recv(1024)
             break
         sock.sendall(info)
