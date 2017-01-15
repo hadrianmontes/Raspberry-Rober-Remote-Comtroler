@@ -19,9 +19,13 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         elif command == "undo":
             self.undo_robot()
         elif command == "camera":
-            subprocess.Popen("~/Documentos/RPi_Cam_Web_Interface/start.sh")
+            subprocess.Popen(["su","-c",
+                              '"/home/hadrian/Documentos/RPi_Cam_Web_Interface/start.sh"',
+                              "hadrian"])
         elif command == "exit":
-            subprocess.Popen("~/Documentos/RPi_Cam_Web_Interface/stop.sh")
+            subprocess.Popen(["su","-c",
+                              '"/home/hadrian/Documentos/RPi_Cam_Web_Interface/stop.sh"',
+                              "hadrian"])
             self.data=["move","0","0"]
             self.move_robot()
         print self.data
