@@ -29,7 +29,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
             self.data=["move","0","0"]
             self.move_robot()
         elif command == "measure":
-            print robot.distance_sensor.measure()
+            print robot.distance_sensor.distance()
         # print self.data
         self.request.sendall("1")
 
@@ -43,7 +43,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
             vx=0
         if abs(vy) < 20:
             vy=0
-        print "moving at ",vx,vy
+        # print "moving at ",vx,vy
         robot.custom(vx,vy)
 
 
