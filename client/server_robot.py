@@ -1,17 +1,7 @@
 import pygame
-import os
 import socket
-import atexit
 import subprocess
 global vlc, shh1, ssh2
-import time
-import sys
-def close():
-    ssh1.kill()
-    vlc.kill()
-    ssh2.kill()
-    pass
-
 
 class PS4Controller(object):
     """Class representing the PS4 controller. Pretty straightforward functionality."""
@@ -90,6 +80,10 @@ class PS4Controller(object):
                              stderr=subprocess.PIPE)
             return "camera"
 
+        # Measure
+        if self.button_data[1]:
+            return "measure"
+
         # Exit
         if self.button_data[2]:
             return "exit"
@@ -101,14 +95,12 @@ if __name__=="__main__":
     ps4.init()
 
     global otraip
-    otraip = "192.168.0.6"
+    otraip = "192.168.0.19"
 
     HOST, PORT = otraip, 9999
     while True:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        print "hola"
         sock.connect((HOST, PORT))
-        print "hola"
         info = ps4.listen()
         if info == "exit":
             sock.sendall(info)
@@ -117,23 +109,3 @@ if __name__=="__main__":
         sock.sendall(info)
         received = sock.recv(1024)
     sock.close()
-
-
-    # atexit.register(close)
-
-    # f = os.popen('ifconfig wlp4s0 | grep "inet" | cut -d: -f2 | cut -d" " -f1')
-    # myip=f.read().strip()
-    # otraip=sys.argv[1]
-
-    # print "Conectando la camara del robot"
-    # ssh2=subprocess.Popen(["ssh",otraip,"python","test_camera_stream.py"],stdout=subprocess.PIPE)
-    # time.sleep(0.5)
-
-    # print "Conectando Controles"
-    # ssh1=subprocess.Popen(["ssh",otraip,"sudo","python","acorrer2.py",myip],stdout=subprocess.PIPE)
-    # time.sleep(0.5)
-
-    # print "Conectando al stream"
-
-    # string="tcp/h264://"+otraip+":8000/"
-    # vlc=subprocess.Popen(["vlc",string],stdout=subprocess.PIPE)
