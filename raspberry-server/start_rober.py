@@ -28,7 +28,9 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
                               "hadrian"])
             self.data=["move","0","0"]
             self.move_robot()
-        print self.data
+        elif command == "measure":
+            print robot.distance_sensor.measure()
+        # print self.data
         self.request.sendall("1")
 
     def move_robot(self):
