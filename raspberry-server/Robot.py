@@ -9,7 +9,7 @@ from distance_sensor import Distance_Sensor
 
 class Robot(object):
     def __init__(self, addr=0x60, left_id=4, right_id=3, left_trim=0, right_trim=0,
-                 echo=4, trigger=14, stop_at_exit=True):
+                 echo=4, trigger=18, stop_at_exit=True):
         """Create an instance of the robot.  Can specify the following optional
         parameters:
          - addr: The I2C address of the motor HAT, default is 0x60.
