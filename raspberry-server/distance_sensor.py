@@ -33,8 +33,8 @@ class Distance_Sensor(object):
     def mean_distance(self, n=5):
         dist=[]
         for _ in xrange(n):
-            dist.append(self.measure_backend)
-        return np.mean(np.array(dist))
+            dist.append(self.measure_backend())
+        return np.mean(dist)
 
     def measure_backend(self):
         # Send the trigger pulse
