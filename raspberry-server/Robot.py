@@ -5,11 +5,10 @@ import time
 import atexit
 
 from Adafruit_MotorHAT import Adafruit_MotorHAT
-from distance_sensor import Distance_Sensor
 
 class Robot(object):
     def __init__(self, addr=0x60, left_id=4, right_id=3, left_trim=0, right_trim=0,
-                 echo=4, trigger=18, stop_at_exit=True):
+                 stop_at_exit=True):
         """Create an instance of the robot.  Can specify the following optional
         parameters:
          - addr: The I2C address of the motor HAT, default is 0x60.
@@ -35,8 +34,6 @@ class Robot(object):
         # Configure all motors to stop at program exit if desired.
         if stop_at_exit:
             atexit.register(self.stop)
-        # start the distance sensor
-        self.distance_sensor = Distance_Sensor(trigger, echo)
 
     def _left_speed(self, speed):
         """Set the speed of the left motor, taking into account its trim offset.
