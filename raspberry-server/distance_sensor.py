@@ -41,6 +41,7 @@ class Distance_Sensor(object):
         GPIO.output(self.trigger, True)
         time.sleep(0.00001)
         GPIO.output(self.trigger, False)
+        start = time.time()
         while GPIO.input(self.echo) == 0:
             start = time.time()
         while GPIO.input(self.echo) == 1:
