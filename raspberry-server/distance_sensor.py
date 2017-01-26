@@ -45,6 +45,9 @@ class Distance_Sensor(object):
             start = time.time()
         while GPIO.input(self.echo) == 1:
             end = time.time()
+            if (end-start) > 1:
+                end = start
+                break
         duration = end-start
         distance = duration * 17150
         return distance

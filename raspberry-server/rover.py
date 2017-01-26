@@ -25,7 +25,7 @@ class Rover(object):
                 self.velocity = (distance-prev_distance)/(time.time()-prev)
                 prev = time.time()
                 prev_distance = distance
-            if turning !=0 and distance < 20:
+            if turning !=0 and distance < 30:
                 turning = self.turn(turning)
             elif distance < 20:
                 turning = self.turn(turning)
@@ -40,3 +40,6 @@ class Rover(object):
         elif turning == -1:
             self.motors.left(50)
         return turning
+
+rover = Rover()
+rover.run()
