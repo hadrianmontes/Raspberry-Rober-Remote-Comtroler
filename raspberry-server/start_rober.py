@@ -63,12 +63,12 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
 try:
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
-    GPIO.setup(4,GPIO.OUT)
+    GPIO.setup(7,GPIO.OUT)
 except:
     GPIO.cleanup()
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
-    GPIO.setup(4,GPIO.OUT)
+    GPIO.setup(7,GPIO.OUT)
 global encendido
 encendido = False
 GPIO.output(7,GPIO.LOW)
