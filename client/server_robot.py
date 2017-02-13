@@ -83,6 +83,8 @@ class PS4Controller(object):
         # Measure
         if self.button_data[1]:
             return "measure"
+        if self.button_data[0]:
+            return "ligh"
 
         # Exit
         if self.button_data[2]:

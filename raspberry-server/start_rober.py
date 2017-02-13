@@ -1,6 +1,7 @@
 import sys
 import Robot
 import SocketServer
+import RPi.GPIO as GPIO
 import time
 import subprocess
 class MyTCPHandler(SocketServer.BaseRequestHandler):
@@ -30,6 +31,14 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
             self.move_robot()
         elif command == "measure":
             print robot.distance_sensor.distance()
+        elif command == "light":
+            if encendido:
+                encendido = False
+                GPIO.output(4,GPIO.LOW)
+            else:
+                encendido=True
+                GPIO.output(4,GPIO.HIGH)
+            
         # print self.data
         self.request.sendall("1")
 
@@ -38,7 +47,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
             vx,vy=[int(float(i)*vmax) for i in self.data[1:]]
         except:
             vx, vy = 0, 0
-        vx/=2
+        # vx/=2
         if abs(vx) < 20:
             vx=0
         if abs(vy) < 20:
@@ -47,6 +56,13 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         robot.custom(vx,vy)
 
 
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(4,GPIO.OUT)
+global encendido
+encendido = False
+GPIO.output(4,GPIO.LOW)
 LEFT_TRIM = 0
 RIGHT_TRIM = 0
 # Max velocity of the robot (the max value is 255)
