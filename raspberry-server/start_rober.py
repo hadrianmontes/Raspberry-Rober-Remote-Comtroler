@@ -53,7 +53,7 @@ RIGHT_TRIM = 0
 global vmax
 vmax = 150
 global robot
-robot = Robot.Robot(left_trim=LEFT_TRIM, right_trim=RIGHT_TRIM)
+robot = Robot.Robot()
 
 # Create the server, binding to localhost on port 9999
 HOST, PORT = "", 9999
