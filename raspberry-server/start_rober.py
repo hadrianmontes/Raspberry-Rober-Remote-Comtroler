@@ -13,6 +13,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
     """
 
     def handle(self):
+        global encendido
         self.data = self.request.recv(1024).split()
         command = self.data[0]
         if command == "move":
