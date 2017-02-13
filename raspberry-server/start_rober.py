@@ -59,10 +59,15 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         robot.custom(vx,vy)
 
 
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-GPIO.setup(4,GPIO.OUT)
+try:
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    GPIO.setup(4,GPIO.OUT)
+except:
+    GPIO.cleanup()
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    GPIO.setup(4,GPIO.OUT)
 global encendido
 encendido = False
 GPIO.output(4,GPIO.LOW)
