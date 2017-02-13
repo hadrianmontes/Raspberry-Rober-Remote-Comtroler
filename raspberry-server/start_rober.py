@@ -37,11 +37,11 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
             if encendido:
                 print "off"
                 encendido = False
-                GPIO.output(4,GPIO.LOW)
+                GPIO.output(7,GPIO.LOW)
             else:
                 print "on"
                 encendido=True
-                GPIO.output(4,GPIO.HIGH)
+                GPIO.output(7,GPIO.HIGH)
             
         # print self.data
         self.request.sendall("1")
@@ -71,7 +71,7 @@ except:
     GPIO.setup(4,GPIO.OUT)
 global encendido
 encendido = False
-GPIO.output(4,GPIO.LOW)
+GPIO.output(7,GPIO.LOW)
 LEFT_TRIM = 0
 RIGHT_TRIM = 0
 # Max velocity of the robot (the max value is 255)
