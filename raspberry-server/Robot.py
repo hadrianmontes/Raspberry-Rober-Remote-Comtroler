@@ -147,21 +147,25 @@ class Robot(object):
             v1=-v1
             v1=min(255,v1)
             self._left_speed(v1)
-            self._left.run(Adafruit_MotorHAT.BACKWARD)
+            self._left_back.run(Adafruit_MotorHAT.BACKWARD)
+            self._left_front.run(Adafruit_MotorHAT.BACKWARD)
         else:
             v1=min(255,v1)
             self._left_speed(v1)
-            self._left.run(Adafruit_MotorHAT.FORWARD)
+            self._left_back.run(Adafruit_MotorHAT.FORWARD)
+            self._left_front.run(Adafruit_MotorHAT.FORWARD)
 
         if v2 < 0:
             v2=-v2
             v2=min(255,v2)
             self._right_speed(v2)
-            self._right.run(Adafruit_MotorHAT.BACKWARD)
+            self._right_back.run(Adafruit_MotorHAT.BACKWARD)
+            self._right_front.run(Adafruit_MotorHAT.BACKWARD)
         else:
             v2=min(255,v2)
             self._right_speed(v2)
-            self._right.run(Adafruit_MotorHAT.FORWARD)
+            self._right_back.run(Adafruit_MotorHAT.FORWARD)
+            self._right_front.run(Adafruit_MotorHAT.FORWARD)
         
         # If an amount of time is specified, move for that time and then stop.
         if seconds is not None:
