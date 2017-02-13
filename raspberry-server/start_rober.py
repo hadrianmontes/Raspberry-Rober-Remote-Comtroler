@@ -35,11 +35,11 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         elif command == "light":
             print "light"
             if encendido:
-                print "on"
+                print "off"
                 encendido = False
                 GPIO.output(4,GPIO.LOW)
             else:
-                print "off"
+                print "on"
                 encendido=True
                 GPIO.output(4,GPIO.HIGH)
             
