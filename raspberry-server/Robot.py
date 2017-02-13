@@ -141,8 +141,8 @@ class Robot(object):
     def custom(self,vx,vy,seconds=None):
         # if vy < 0:
         # Set motor speed and move both forward.
-        if vx < 0:
-            vy*=-1
+        if vy < 0:
+            vx*=-1
         v1=int(vy+vx)
         v2=int(vy-vx)
         if v1 < 0:
