@@ -32,10 +32,13 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         elif command == "measure":
             print robot.distance_sensor.distance()
         elif command == "light":
+            print "light"
             if encendido:
+                print "on"
                 encendido = False
                 GPIO.output(4,GPIO.LOW)
             else:
+                print "off"
                 encendido=True
                 GPIO.output(4,GPIO.HIGH)
             
