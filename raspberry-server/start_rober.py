@@ -42,7 +42,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
                 print "on"
                 encendido=True
                 GPIO.output(18,GPIO.HIGH)
-            
+            time.sleep(0.1)
         # print self.data
         self.request.sendall("1")
 
