@@ -21,7 +21,6 @@ class Rover(object):
         turning = 0
         while True:
             distance = min(self.sensor_array.distances)
-            print distance
             if (time.time()-prev) > self.time_step:
                 self.motors.forward(50)
                 self.velocity = (distance-prev_distance)/(time.time()-prev)
