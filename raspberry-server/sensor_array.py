@@ -14,4 +14,4 @@ class Sensor_array(object):
             self.sensors.append(Distance_Sensor(trigger, echo))
 
 if __name__=="__main__":
-    Sensor_array([21,19,13],[20,16,12])
+    sensor_array = Sensor_array([21,19,13],[20,16,12])
