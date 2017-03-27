@@ -1,2 +1,6 @@
 /raspberry-server/*\\~
 /raspberry-server/*~
+*/*~
+*/*#
+*7*pyc
+*/*pyc
