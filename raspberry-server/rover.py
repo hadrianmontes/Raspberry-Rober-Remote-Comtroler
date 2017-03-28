@@ -9,7 +9,7 @@ class Rover(object):
     def __init__(self):
         super(Rover, self).__init__()
         self.motors = Robot()
-        self.power = 50
+        self.power = 100
         self.time_step = 0.2  # sime in seconds
         self.velocity = None
         self.sensor_array = Sensor_array([21,19,13],[20,16,12])
