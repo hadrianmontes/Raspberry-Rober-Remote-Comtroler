@@ -1,6 +1,6 @@
 from Robot import Robot
-from distance_sensor import Distance_Sensor
 from random import choice
+from sensor_array import Sensor_array
 import time
 
 class Rover(object):
@@ -9,17 +9,18 @@ class Rover(object):
     def __init__(self):
         super(Rover, self).__init__()
         self.motors = Robot()
-        self.distance_sensor = Distance_Sensor(18, 4)
         self.power = 50
         self.time_step = 0.2  # sime in seconds
         self.velocity = None
+        self.sensor_array = Sensor_array([21,19,13],[20,16,12])
+        self.sensor_array.start_thread()
 
     def run(self):
         prev = time.time()
-        prev_distance = self.distance_sensor.mean_distance()
+        prev_distance = min(self.sensor_array.distances)
         turning = 0
         while True:
-            distance = self.distance_sensor.mean_distance()
+            distance = min(self.sensor_array.distances)
             print distance
             if (time.time()-prev) > self.time_step:
                 self.motors.forward(50)
