@@ -30,7 +30,7 @@ class Rover(object):
                 prev_distances = self.distances[:]
             if min(self.distances) < self.colision_distance:
                 turning = self.turn(turning)
-            elif max(self.distances) < 3000:
+            elif max(self.distances) > 3000:
                 self.motors.backward(self.power,1)
             else:
                 self.motors.forward(self.power)
