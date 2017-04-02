@@ -18,7 +18,7 @@ class Rover(object):
 
     def run(self):
         prev = time.time()
-        self.ev_random = prev
+        self.prev_random = prev
         self.sensor_array.mean_measure()
         prev_distances = self.sensor_array.distances
         turning = 0
