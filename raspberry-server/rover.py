@@ -37,7 +37,7 @@ class Rover(object):
                 self.motors.forward(self.power)
             if (time.time()-prev) > self.time_step:
                 self.motors.backward(self.power, self.time_step)
-            
+                self.turn(0)
 
     def turn(self, turning):
         if self.distances[1] < self.colision_distance:
