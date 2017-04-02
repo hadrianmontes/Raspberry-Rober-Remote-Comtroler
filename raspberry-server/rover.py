@@ -34,9 +34,9 @@ class Rover(object):
         if self.distances[1] < self.colision_distance:
             self.motors.backward(self.power, self.time_step)
         if self.distances[0] < self.distances[2]:
-            self.motors.right(self.power/2.,self.time_step)
+            self.motors.right(self.power/2,self.time_step)
         else:
-            self.motors.left(self.power/2.,self.time_step)
+            self.motors.left(self.power/2,self.time_step)
         return 0
 
 rover = Rover()
