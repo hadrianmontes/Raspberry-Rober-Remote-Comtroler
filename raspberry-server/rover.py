@@ -36,7 +36,7 @@ class Rover(object):
                 self.motors.backward(self.power,1)
             else:
                 self.motors.forward(self.power)
-            if (time.time()-self.prev_random) > self.time_step:
+            if (time.time()-self.prev_random) > self.random_time:
                 self.motors.backward(self.power, self.time_step)
                 self.turn(0)
                 self.prev_random = time.time()
