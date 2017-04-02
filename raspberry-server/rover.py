@@ -18,6 +18,7 @@ class Rover(object):
 
     def run(self):
         prev = time.time()
+        self.ev_random = prev
         self.sensor_array.mean_measure()
         prev_distances = self.sensor_array.distances
         turning = 0
@@ -35,10 +36,11 @@ class Rover(object):
                 self.motors.backward(self.power,1)
             else:
                 self.motors.forward(self.power)
-            if (time.time()-prev) > self.time_step:
+            if (time.time()-self.prev_random) > self.time_step:
                 self.motors.backward(self.power, self.time_step)
                 self.turn(0)
-
+                self.prev_random = time.time()
+                
     def turn(self, turning):
         if self.distances[1] < self.colision_distance:
             self.motors.backward(self.power, self.time_step)
@@ -46,6 +48,7 @@ class Rover(object):
             self.motors.right(self.power/2,0.5)
         else:
             self.motors.left(self.power/2,0.5)
+        self.prev_random = time.time()
         return 0
 
 rover = Rover()
