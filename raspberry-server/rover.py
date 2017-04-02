@@ -1,5 +1,4 @@
 from Robot import Robot
-from random import choice
 from sensor_array import Sensor_array
 import time
 

@@ -1,5 +1,6 @@
 from distance_sensor import Distance_Sensor
 import threading
+import time
 
 class Sensor_array(object):
     """Documentation for Sensor_array
@@ -35,6 +36,7 @@ class Sensor_array(object):
     def main_routine(self):
         while self.measure:
             self.mean_measure()
+	    time.sleep(0.01)
 
 if __name__=="__main__":
     sensor_array = Sensor_array([21,19,13],[20,16,12])
