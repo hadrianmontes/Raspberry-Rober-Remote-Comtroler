@@ -25,12 +25,15 @@ class Rover(object):
             self.distances = self.sensor_array.distances
             print self.distances
             if (time.time()-prev) > self.time_step:
-                self.motors.forward(self.power)
                 self.velocity = (self.distances[1]-prev_distances[1])/(time.time()-prev)
                 prev = time.time()
                 prev_distances = self.distances[:]
             if min(self.distances) < self.colision_distance:
                 turning = self.turn(turning)
+            elif max(self.distances) < 3000:
+                self.motors.backward(self.power,1)
+            else:
+                self.motors.forward(self.power)
 
     def turn(self, turning):
         if self.distances[1] < self.colision_distance:
