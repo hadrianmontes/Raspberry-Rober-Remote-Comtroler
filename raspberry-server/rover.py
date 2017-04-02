@@ -10,38 +10,35 @@ class Rover(object):
         super(Rover, self).__init__()
         self.motors = Robot()
         self.power = 100
-        self.time_step = 0.2  # sime in seconds
+        self.time_step = 0.1  # sime in seconds
         self.velocity = None
         self.sensor_array = Sensor_array([21,19,13],[20,16,12])
         self.sensor_array.start_thread()
+        self.colision_distance = 30
 
     def run(self):
         prev = time.time()
-        prev_distance = min(self.sensor_array.distances)
+        prev_distances = self.sensor_array.distances
         turning = 0
         while True:
-            distance = min(self.sensor_array.distances)
-            print distance
+            self.distances = self.sensor_array.distances
+            print self.distances
             if (time.time()-prev) > self.time_step:
-                self.motors.forward(50)
-                self.velocity = (distance-prev_distance)/(time.time()-prev)
+                self.motors.forward(self.power)
+                self.velocity = (self.distances[1]-prev_distances[1])/(time.time()-prev)
                 prev = time.time()
-                prev_distance = distance
-            if turning !=0 and distance < 30:
+                prev_distances = self.distances[:]
+            if any(self.distances < self.colision_distance):
                 turning = self.turn(turning)
-            elif distance < 20:
-                turning = self.turn(turning)
-            else:
-                turning = 0
 
     def turn(self, turning):
-        if turning == 0:
-            turning = choice([-1,1])
-        if turning == 1:
-            self.motors.right(50)
-        elif turning == -1:
-            self.motors.left(50)
-        return turning
+        if self.distances[1] < self.colision_distance:
+            self.motors.backward(self.power, self.time_step)
+        if self.distances[0] < self.distances[2]:
+            self.motors.right(self.power/2.,self.time_step)
+        else:
+            self.motors.left(self.power/2.,self.time_step)
+        return 0
 
 rover = Rover()
 rover.run()
