@@ -10,6 +10,7 @@ class Rover(object):
         self.motors = Robot()
         self.power = 200
         self.time_step = 0.1  # sime in seconds
+        self.random_time = 4
         self.velocity = None
         self.sensor_array = Sensor_array([21,19,13],[20,16,12])
         # self.sensor_array.start_thread()
@@ -34,6 +35,9 @@ class Rover(object):
                 self.motors.backward(self.power,1)
             else:
                 self.motors.forward(self.power)
+            if (time.time()-prev) > self.time_step:
+                self.motors.backward(self.power, self.time_step)
+            
 
     def turn(self, turning):
         if self.distances[1] < self.colision_distance:
