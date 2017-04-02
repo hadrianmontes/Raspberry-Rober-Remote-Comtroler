@@ -9,8 +9,8 @@ class Rover(object):
         super(Rover, self).__init__()
         self.motors = Robot()
         self.power = 200
-        self.time_step = 0.1  # sime in seconds
-        self.random_time = 4
+        self.time_step = 0.2  # sime in seconds
+        self.random_time = 10
         self.velocity = None
         self.sensor_array = Sensor_array([21,19,13],[20,16,12])
         # self.sensor_array.start_thread()
@@ -43,9 +43,9 @@ class Rover(object):
         if self.distances[1] < self.colision_distance:
             self.motors.backward(self.power, self.time_step)
         if self.distances[0] < self.distances[2]:
-            self.motors.right(self.power/2,self.time_step)
+            self.motors.right(self.power/2,0.5)
         else:
-            self.motors.left(self.power/2,self.time_step)
+            self.motors.left(self.power/2,0.5)
         return 0
 
 rover = Rover()
