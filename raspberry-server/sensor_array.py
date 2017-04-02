@@ -25,6 +25,13 @@ class Sensor_array(object):
             distances.append(sensor.mean_distance())
         self.distances = distances
 
+    def measure_distances(self):
+        distances = []
+        for sensor in self.sensors:
+            distances.append(sensor.measure_backend())
+            time.sleep(0.01)
+        self.distances = distances
+        
     def start_thread(self):
         self.measure = True
         self.thread = threading.Thread(target=self.main_routine)
