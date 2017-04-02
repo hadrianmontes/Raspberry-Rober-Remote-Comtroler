@@ -19,11 +19,11 @@ class Rover(object):
     def run(self):
         prev = time.time()
         self.prev_random = prev
-        self.sensor_array.mean_measure()
+        self.sensor_array.measure_distances()
         prev_distances = self.sensor_array.distances
         turning = 0
         while True:
-            self.sensor_array.mean_measure()
+            self.sensor_array.measure_distances()
             self.distances = self.sensor_array.distances
             print self.distances
             if (time.time()-prev) > self.time_step:
