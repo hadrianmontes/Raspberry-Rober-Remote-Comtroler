@@ -36,7 +36,7 @@ class Sensor_array(object):
     def main_routine(self):
         while self.measure:
             self.mean_measure()
-	    time.sleep(0.01)
+            time.sleep(0.01)
 
 if __name__=="__main__":
     sensor_array = Sensor_array([21,19,13],[20,16,12])

@@ -27,7 +27,7 @@ class Rover(object):
                 self.velocity = (self.distances[1]-prev_distances[1])/(time.time()-prev)
                 prev = time.time()
                 prev_distances = self.distances[:]
-            if any(self.distances < self.colision_distance):
+            if min(self.distances) < self.colision_distance:
                 turning = self.turn(turning)
 
     def turn(self, turning):
