@@ -8,18 +8,20 @@ class Rover(object):
     def __init__(self):
         super(Rover, self).__init__()
         self.motors = Robot()
-        self.power = 100
+        self.power = 200
         self.time_step = 0.1  # sime in seconds
         self.velocity = None
         self.sensor_array = Sensor_array([21,19,13],[20,16,12])
-        self.sensor_array.start_thread()
+        # self.sensor_array.start_thread()
         self.colision_distance = 30
 
     def run(self):
         prev = time.time()
+        self.sensor_array.mean_measure()
         prev_distances = self.sensor_array.distances
         turning = 0
         while True:
+            self.sensor_array.mean_measure()
             self.distances = self.sensor_array.distances
             print self.distances
             if (time.time()-prev) > self.time_step:
