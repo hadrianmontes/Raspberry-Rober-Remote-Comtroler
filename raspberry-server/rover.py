@@ -1,19 +1,21 @@
 from Robot import Robot
 from sensor_array import Sensor_array
+from orientation_sensor import Orientaion_sensor
 import time
 import atexit
 class Rover(object):
     """Documentation for Rover
     """
-    def __init__(self):
+    def __init__(self, tty="/dev/ttyUSB0"):
         super(Rover, self).__init__()
         self.motors = Robot()
         self.power = 200
-        self.time_step = 0.2  # sime in seconds
+        self.time_step = 0.1  # sime in seconds
         self.random_time = 10
         self.velocity = None
         self.sensor_array = Sensor_array([21,19,13],[20,16,12])
         self.colision_distance = 30
+        self.orientation_sensor = Orientaion_sensor(tty=tty)
         atexit.register(self.stop)
 
     def run(self):
@@ -40,7 +42,21 @@ class Rover(object):
                 self.motors.backward(self.power, self.time_step)
                 self.turn(0)
                 self.prev_random = time.time()
-                
+
+    def rotate(self, angle, power_multiplication=1.):
+        """
+        Rotate a given angle, in degrees
+        """
+        if angle < 0:
+            rotating_function = self.motors.left
+        else:
+            rotating_function = self.motors.right
+        initial_angle = self.orientation_sensor.phi
+        angle = abs(angle) % 360
+        while abs(self.orientation_sensor-initial_angle) % 360 < angle:
+            rotating_function(self.power)
+        self.motors.stop()
+
     def turn(self, turning):
         if self.distances[1] < self.colision_distance:
             self.motors.backward(self.power, self.time_step)
@@ -57,4 +73,4 @@ class Rover(object):
 
 if __name__ == "__main__":
     rover = Rover()
-    rover.run()
+    # rover.run()
