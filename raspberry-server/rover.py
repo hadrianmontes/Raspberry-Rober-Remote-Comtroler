@@ -43,20 +43,33 @@ class Rover(object):
                 self.turn(0)
                 self.prev_random = time.time()
 
-    def rotate(self, angle, power_multiplication=1.):
+    def rotate(self, angle, power_multiplication=.75):
         """
         Rotate a given angle, in degrees
         """
         if angle < 0:
-            rotating_function = self.motors.left
+            self._rotate_left(angle, power_multiplication)
         else:
-            rotating_function = self.motors.right
+            self._rotate_left(angle, power_multiplication)
+
+    def _rotate_left(self, angle, power_multiplication):
+        initial_angle = self.orientation_sensor.phi
+        angle = abs(angle) % 360
+        print "rotating"
+        print initial_angle
+        while (initial_angle-self.orientation_sensor.phi) % 360 < angle:
+            self.motors.left(self.power*power_multiplication)
+        self.motors.stop()
+        print self.orientation_sensor.phi
+        print (initial_angle-self.orientation_sensor.phi) % 360
+
+    def _rotate_right(self, angle, power_multiplication):
         initial_angle = self.orientation_sensor.phi
         angle = abs(angle) % 360
         print "rotating"
         print initial_angle
         while (self.orientation_sensor.phi-initial_angle) % 360 < angle:
-            rotating_function(self.power)
+            self.motors.left(self.power*power_multiplication)
         self.motors.stop()
         print self.orientation_sensor.phi
         print (self.orientation_sensor.phi-initial_angle) % 360
@@ -72,8 +85,8 @@ class Rover(object):
         return 0
 
     def stop(self):
-	self.motors.stop()
-	self.sensor_array.stop_thread()
+        self.motors.stop()
+        self.sensor_array.stop_thread()
 
 if __name__ == "__main__":
     rover = Rover()
