@@ -1,7 +1,7 @@
 from Robot import Robot
 from sensor_array import Sensor_array
 import time
-
+import atexit
 class Rover(object):
     """Documentation for Rover
     """
@@ -13,17 +13,17 @@ class Rover(object):
         self.random_time = 10
         self.velocity = None
         self.sensor_array = Sensor_array([21,19,13],[20,16,12])
-        # self.sensor_array.start_thread()
         self.colision_distance = 30
+        atexit.register(self.stop)
 
     def run(self):
         prev = time.time()
         self.prev_random = prev
+        self.sensor_array.start_thread()
         self.sensor_array.measure_distances()
         prev_distances = self.sensor_array.distances
         turning = 0
         while True:
-            self.sensor_array.measure_distances()
             self.distances = self.sensor_array.distances
             print self.distances
             if (time.time()-prev) > self.time_step:
@@ -51,5 +51,10 @@ class Rover(object):
         self.prev_random = time.time()
         return 0
 
-rover = Rover()
-rover.run()
+    def stop(self):
+	self.motors.stop()
+	self.sensor_array.stop_thread()
+
+if __name__ == "__main__":
+    rover = Rover()
+    rover.run()
