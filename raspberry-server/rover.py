@@ -85,10 +85,12 @@ class Rover(object):
     def turn(self, turning):
         if self.distances[1] < self.colision_distance:
             self.motors.backward(self.power, self.time_step)
-        if self.distances[0] < self.distances[2]:
-            self.motors.right(self.power/2,0.5)
+        if self.distances[1] < self.distances[2]:
+            # self.motors.right(self.power/2,0.5)
+            self.rotate(60)
         else:
-            self.motors.left(self.power/2,0.5)
+            # self.motors.left(self.power/2,0.5)
+            self.rotate(-60)
         self.prev_random = time.time()
         return 0
 
