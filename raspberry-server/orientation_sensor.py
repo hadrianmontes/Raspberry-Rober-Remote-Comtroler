@@ -43,5 +43,5 @@ class Orientaion_sensor(object):
 
     @property
     def phi(self):
-        return self._read_phi()
+        return self._read_phi() % 360
 
