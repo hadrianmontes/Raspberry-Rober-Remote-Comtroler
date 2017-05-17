@@ -53,7 +53,7 @@ class Rover(object):
             rotating_function = self.motors.right
         initial_angle = self.orientation_sensor.phi
         angle = abs(angle) % 360
-        while abs(self.orientation_sensor-initial_angle) % 360 < angle:
+        while abs(self.orientation_sensor.phi-initial_angle) % 360 < angle:
             rotating_function(self.power)
         self.motors.stop()
 
