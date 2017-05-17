@@ -43,39 +43,44 @@ class Rover(object):
                 self.turn(0)
                 self.prev_random = time.time()
 
-    def rotate(self, angle, power_multiplication=.75):
+    def rotate(self, angle, power_multiplication=1.):
         """
         Rotate a given angle, in degrees
         """
         if angle < 0:
             self._rotate_left(angle, power_multiplication)
         else:
-            self._rotate_left(angle, power_multiplication)
+            self._rotate_right(angle, power_multiplication)
 
     def _rotate_left(self, angle, power_multiplication):
         initial_angle = self.orientation_sensor.phi
-        angle = abs(angle) % 360
         print "rotating"
         print initial_angle
         rotated = 0
         while abs(rotated) < abs(angle):
             current = self.orientation_sensor.phi
-            rotated = (current - initial_angle) % 360 - current
+            rotated = (initial_angle-current) % 360
+            if rotated > 270:
+                rotated = 0
             self.motors.left(int(self.power*power_multiplication))
         self.motors.stop()
         print self.orientation_sensor.phi
-        print (initial_angle-self.orientation_sensor.phi) % 360
+        print rotated
 
     def _rotate_right(self, angle, power_multiplication):
         initial_angle = self.orientation_sensor.phi
-        angle = abs(angle) % 360
         print "rotating"
         print initial_angle
-        while (self.orientation_sensor.phi-initial_angle) % 360 < angle:
-            self.motors.left(self.power*power_multiplication)
+        rotated = 0
+        while abs(rotated) < abs(angle):
+            current = self.orientation_sensor.phi
+            rotated = (current-initial_angle) % 360
+            if rotated > 270:
+                rotated = 0 
+            self.motors.right(int(self.power*power_multiplication))
         self.motors.stop()
         print self.orientation_sensor.phi
-        print (self.orientation_sensor.phi-initial_angle) % 360
+        print rotated
 
     def turn(self, turning):
         if self.distances[1] < self.colision_distance:
