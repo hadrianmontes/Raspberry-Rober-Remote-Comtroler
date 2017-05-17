@@ -53,9 +53,13 @@ class Rover(object):
             rotating_function = self.motors.right
         initial_angle = self.orientation_sensor.phi
         angle = abs(angle) % 360
-        while abs(self.orientation_sensor.phi-initial_angle) % 360 < angle:
+        print "rotating"
+        print initial_angle
+        while (self.orientation_sensor.phi-initial_angle) % 360 < angle:
             rotating_function(self.power)
         self.motors.stop()
+        print self.orientation_sensor.phi
+        print (self.orientation_sensor.phi-initial_angle) % 360
 
     def turn(self, turning):
         if self.distances[1] < self.colision_distance:
