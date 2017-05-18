@@ -9,9 +9,9 @@ class Rover(object):
     def __init__(self, tty="/dev/ttyUSB0"):
         super(Rover, self).__init__()
         self.motors = Robot()
-        self.power = 200
+        self.power = 250
         self.time_step = 0.1  # sime in seconds
-        self.random_time = 10
+        self.random_time = 5
         self.velocity = None
         self.sensor_array = Sensor_array([21,19,13],[20,16,12])
         self.colision_distance = 30
@@ -39,11 +39,11 @@ class Rover(object):
             else:
                 self.motors.forward(self.power)
             if (time.time()-self.prev_random) > self.random_time:
-                self.motors.backward(self.power, self.time_step)
+                self.motors.backward(self.power, 5*self.time_step)
                 self.turn(0)
                 self.prev_random = time.time()
 
-    def rotate(self, angle, power_multiplication=1.):
+    def rotate(self, angle, power_multiplication=0.5):
         """
         Rotate a given angle, in degrees
         """
@@ -84,13 +84,13 @@ class Rover(object):
 
     def turn(self, turning):
         if self.distances[1] < self.colision_distance:
-            self.motors.backward(self.power, self.time_step)
-        if self.distances[1] < self.distances[2]:
+            self.motors.backward(self.power, 5*self.time_step)
+        if self.distances[2] < self.distances[0]:
             # self.motors.right(self.power/2,0.5)
-            self.rotate(60)
+            self.rotate(30)
         else:
             # self.motors.left(self.power/2,0.5)
-            self.rotate(-60)
+            self.rotate(-30)
         self.prev_random = time.time()
         return 0
 
