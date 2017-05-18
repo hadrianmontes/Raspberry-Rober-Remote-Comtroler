@@ -52,35 +52,46 @@ class Rover(object):
         else:
             self._rotate_right(angle, power_multiplication)
 
-    def _rotate_left(self, angle, power_multiplication):
+    def _rotate_left(self, angle, power_multiplication, timelimit=10):
         initial_angle = self.orientation_sensor.phi
         print "rotating"
         print initial_angle
         rotated = 0
+        start = time.time()
         while abs(rotated) < abs(angle):
             current = self.orientation_sensor.phi
             rotated = (initial_angle-current) % 360
             if rotated > 270:
                 rotated = 0
             self.motors.left(int(self.power*power_multiplication))
+            if (time.time() -start) > timelimit:
+                self.motors.stop()
+                return 0
         self.motors.stop()
         print self.orientation_sensor.phi
         print rotated
+        return 1
 
-    def _rotate_right(self, angle, power_multiplication):
+    def _rotate_right(self, angle, power_multiplication, timelimit=10):
         initial_angle = self.orientation_sensor.phi
         print "rotating"
         print initial_angle
         rotated = 0
+        start = time.time()
         while abs(rotated) < abs(angle):
             current = self.orientation_sensor.phi
             rotated = (current-initial_angle) % 360
             if rotated > 270:
-                rotated = 0 
+                rotated = 0
             self.motors.right(int(self.power*power_multiplication))
+            if (time.time() -start) > timelimit:
+                self.motors.stop()
+                return 0
+
         self.motors.stop()
         print self.orientation_sensor.phi
         print rotated
+        return 1
 
     def turn(self, turning):
         if self.distances[1] < self.colision_distance:
