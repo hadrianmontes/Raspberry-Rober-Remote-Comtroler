@@ -52,7 +52,7 @@ class Distance_Sensor(object):
             end = time.time()
             if (end-start) > 1:
                 end = start
-                breakn
+                break
         duration = end-start
         distance = duration * 17150
         return distance
