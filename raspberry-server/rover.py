@@ -1,47 +1,21 @@
 from Robot import Robot
-from sensor_array import Sensor_array
 from orientation_sensor import Orientaion_sensor
 import time
 import atexit
 class Rover(object):
     """Documentation for Rover
     """
-    def __init__(self, tty="/dev/ttyUSB0"):
+    def __init__(self, tty="/dev/ttyUSB0", power=250, random_time=5,
+                 time_step=0.1):
         super(Rover, self).__init__()
         self.motors = Robot()
-        self.power = 250
-        self.time_step = 0.1  # sime in seconds
-        self.random_time = 5
+        self.power = power
+        self.time_step = time_step  # sime in seconds
+        self.random_time = random_time
         self.velocity = None
-        self.sensor_array = Sensor_array([21,19,13],[20,16,12])
         self.colision_distance = 30
         self.orientation_sensor = Orientaion_sensor(tty=tty)
         atexit.register(self.stop)
-
-    def run(self):
-        prev = time.time()
-        self.prev_random = prev
-        self.sensor_array.start_thread()
-        self.sensor_array.measure_distances()
-        prev_distances = self.sensor_array.distances
-        turning = 0
-        while True:
-            self.distances = self.sensor_array.distances
-            print self.distances
-            if (time.time()-prev) > self.time_step:
-                self.velocity = (self.distances[1]-prev_distances[1])/(time.time()-prev)
-                prev = time.time()
-                prev_distances = self.distances[:]
-            if min(self.distances) < self.colision_distance:
-                turning = self.turn(turning)
-            elif max(self.distances) > 3000:
-                self.motors.backward(self.power,1)
-            else:
-                self.motors.forward(self.power)
-            if (time.time()-self.prev_random) > self.random_time:
-                self.motors.backward(self.power, 5*self.time_step)
-                self.turn(0)
-                self.prev_random = time.time()
 
     def rotate(self, angle, power_multiplication=0.5):
         """
