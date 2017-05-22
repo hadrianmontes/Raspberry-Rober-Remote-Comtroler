@@ -168,7 +168,7 @@ class Robot(object):
             self._right_speed(v2)
             self._right_back.run(Adafruit_MotorHAT.FORWARD)
             self._right_front.run(Adafruit_MotorHAT.FORWARD)
-        
+
         # If an amount of time is specified, move for that time and then stop.
         if seconds is not None:
             time.sleep(seconds)
