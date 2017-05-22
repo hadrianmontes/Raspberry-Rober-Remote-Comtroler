@@ -42,17 +42,17 @@ class Distance_Sensor(object):
         time.sleep(0.00001)
         GPIO.output(self.trigger, False)
         start = time.time()
-	end = time.time()
+        end = time.time()
         init = time.time()
         while GPIO.input(self.echo) == 0:
             start = time.time()
             if (start-init) > 0.5:
                 return 0
-        while (GPIO.input(self.echo) == 1) or (end-start) > 0.5 :
+        while (GPIO.input(self.echo) == 1) or (end-start) > 0.:
             end = time.time()
             if (end-start) > 1:
                 end = start
-                break
+                breakn
         duration = end-start
         distance = duration * 17150
         return distance

@@ -22,7 +22,7 @@ class Sensor_array(object):
     def mean_measure(self):
         distances = []
         for sensor in self.sensors:
-            distances.append(sensor.mean_distance())
+            distances.append(sensor.mean_distance(n=1))
         self.distances = distances
 
     def measure_distances(self):
