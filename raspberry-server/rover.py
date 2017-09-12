@@ -1,7 +1,9 @@
 from Robot import Robot
 from orientation_sensor import Orientaion_sensor
+from sensor_array import Sensor_array
 import time
 import atexit
+
 class Rover(object):
     """Documentation for Rover
     """
@@ -15,7 +17,10 @@ class Rover(object):
         self.velocity = None
         self.colision_distance = 30
         self.orientation_sensor = Orientaion_sensor(tty=tty)
+        self._log = []
+        self._status = ""
         atexit.register(self.stop)
+        self.sensor_array = Sensor_array(*sensor_array)
 
     def rotate(self, angle, power_multiplication=0.5):
         """
@@ -28,7 +33,7 @@ class Rover(object):
 
     def _rotate_left(self, angle, power_multiplication, timelimit=10):
         initial_angle = self.orientation_sensor.phi
-        print "rotating"
+        self._status = "rotating left"
         print initial_angle
         rotated = 0
         start = time.time()
@@ -87,6 +92,14 @@ class Rover(object):
     def stop(self):
         self.motors.stop()
         self.sensor_array.stop_thread()
+
+    def _update_log(self, message, visual=True):
+        entry = (self._status,
+                 self.orientation_sensor.phi,
+                 self.distances)
+        self._log.append(entry)
+        if visual:
+            print entry
 
 if __name__ == "__main__":
     rover = Rover()

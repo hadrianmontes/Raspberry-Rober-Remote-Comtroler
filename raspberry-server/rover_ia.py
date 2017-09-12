@@ -1,5 +1,4 @@
 from rover import Rover
-from sensor_array import Sensor_array
 import time
 
 class Rover_IA(Rover):
@@ -8,7 +7,6 @@ class Rover_IA(Rover):
     """
     def __init__(self,sensor_array=[[21,19,13],[20,16,12]], **kwargs):
         super(Rover_IA, self).__init__(**kwargs)
-        self.sensor_array = Sensor_array(*sensor_array)
 
     def run(self):
         prev = time.time()
