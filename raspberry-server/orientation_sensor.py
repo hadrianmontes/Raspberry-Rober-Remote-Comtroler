@@ -34,7 +34,7 @@ class Orientaion_sensor(object):
         self._initialized = True
         return
 
-    def _read_phi(self, tries=100):
+    def _read_phi(self, tries=10000):
         # Flush old values
         self.serial.flushInput()
         # Try until a read is done
