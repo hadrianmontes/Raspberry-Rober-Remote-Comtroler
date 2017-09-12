@@ -5,7 +5,7 @@ class Rover_IA(Rover):
     """Creates the IA to control the Rover
 
     """
-    def __init__(self,sensor_array=[[21,19,13],[20,16,12]], **kwargs):
+    def __init__(self, **kwargs):
         super(Rover_IA, self).__init__(**kwargs)
 
     def run(self):

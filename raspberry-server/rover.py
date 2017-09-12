@@ -8,7 +8,7 @@ class Rover(object):
     """Documentation for Rover
     """
     def __init__(self, tty="/dev/ttyUSB0", power=250, random_time=5,
-                 time_step=0.1):
+                 time_step=0.1, sensor_array=[[21,19,13],[20,16,12]],):
         super(Rover, self).__init__()
         self.motors = Robot()
         self.power = power
