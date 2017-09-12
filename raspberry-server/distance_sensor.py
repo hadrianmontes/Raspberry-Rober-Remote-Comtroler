@@ -48,7 +48,7 @@ class Distance_Sensor(object):
             start = time.time()
             if (start-init) > 0.5:
                 return 0
-        while (GPIO.input(self.echo) == 1) or (end-start) > 0.:
+        while (GPIO.input(self.echo) == 1) or (end-start) > 0.5:
             end = time.time()
             if (end-start) > 1:
                 end = start
