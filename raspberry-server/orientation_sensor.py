@@ -38,7 +38,7 @@ class Orientaion_sensor(object):
         # Flush old values
         self.serial.flushInput()
         # Try until a read is done
-        for _ in range(tries):
+        for _ in xrange(tries):
             line = self.serial.readline()
             if line:
                 return float(line.split()[1])
