@@ -19,7 +19,6 @@ class Rover_IA(Rover):
         turning = 0
         while True:
             self.distances = self.sensor_array.distances
-            print self.distances
             if (time.time()-prev) > self.time_step:
                 self.velocity = (self.distances[1]-prev_distances[1])/(time.time()-prev)
                 prev = time.time()

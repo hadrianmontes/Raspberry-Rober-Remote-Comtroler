@@ -35,7 +35,7 @@ class Rover(object):
 
     def _rotate_left(self, angle, power_multiplication, timelimit=10):
         initial_angle = self.orientation_sensor.phi
-        self._status = "rotating left {2i}".format(angle)
+        self._status = "rotating left {}".format(int(angle))
         rotated = 0
         start = time.time()
         while abs(rotated) < abs(angle):
@@ -52,7 +52,7 @@ class Rover(object):
 
     def _rotate_right(self, angle, power_multiplication, timelimit=10):
         initial_angle = self.orientation_sensor.phi
-        self._status = "rotating right {2i}".format(angle)
+        self._status = "rotating right {}".format(int(angle))
         rotated = 0
         start = time.time()
         while abs(rotated) < abs(angle):
