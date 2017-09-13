@@ -60,7 +60,10 @@ class Orientaion_sensor(object):
         for _ in xrange(tries):
             line = self.serial.readline()
             if line:
-                return float(line.split()[1])
+                try:
+                    return float(line.split()[1])
+                except (ValueError, IndexError):
+                    continue
         else:
             raise(IOError("Conexion with device has been lost"))
 
