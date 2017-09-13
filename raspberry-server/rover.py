@@ -93,7 +93,7 @@ class Rover(object):
     def _update_log(self, visual=True):
         entry = (self._status,
                  self.orientation_sensor.phi,
-                 self.distances)
+                 self.sensor_array.distances)
         self._log.append(entry)
         if visual:
             print entry
