@@ -1,5 +1,6 @@
 import serial
 import time
+import threading
 
 class Orientaion_sensor(object):
     """
@@ -20,7 +21,25 @@ class Orientaion_sensor(object):
         # Initiate the serial connection
         self._initialized = False
         self._init_connection()
+        self._daemon = False
+        self._phi = 0
 
+    def init_daemon(self):
+        self._daemon = True
+        self._start_thread()
+
+    def stop_daemon(self):
+        self._daemon = False
+
+    def _start_thread(self):
+        self._thread = threading.Thread(target=self._daemon_func)
+        self._thread.start()
+
+    def _daemon_func(self):
+        while self._daemon:
+            self._phi = self._read_phi()
+            time.sleep(0.1)
+        
     def _init_connection(self):
         self.serial = serial.Serial(self.tty, baudrate=self.baud,
                                     timeout=0)
@@ -62,8 +81,13 @@ class Orientaion_sensor(object):
 
     @property
     def phi(self):
-        return self._read_phi() % 360
+        return self._phi % 360
+        # return self._read_phi() % 360
 
     @property
     def initialized(self):
         return self._initialized
+
+    @property
+    def is_daemon(self):
+        return self._daemon
