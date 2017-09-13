@@ -1,6 +1,7 @@
 from Robot import Robot
 from orientation_sensor import Orientaion_sensor
 from sensor_array import Sensor_array
+import threading
 import time
 import atexit
 
@@ -18,6 +19,7 @@ class Rover(object):
         self.colision_distance = 30
         self.orientation_sensor = Orientaion_sensor(tty=tty)
         self._log = []
+        self._threaded_log = False
         self._status = ""
         atexit.register(self.stop)
         self.sensor_array = Sensor_array(*sensor_array)
@@ -33,8 +35,7 @@ class Rover(object):
 
     def _rotate_left(self, angle, power_multiplication, timelimit=10):
         initial_angle = self.orientation_sensor.phi
-        self._status = "rotating left"
-        print initial_angle
+        self._status = "rotating left {2i}".format(angle)
         rotated = 0
         start = time.time()
         while abs(rotated) < abs(angle):
@@ -47,14 +48,11 @@ class Rover(object):
                 self.motors.stop()
                 return 0
         self.motors.stop()
-        print self.orientation_sensor.phi
-        print rotated
         return 1
 
     def _rotate_right(self, angle, power_multiplication, timelimit=10):
         initial_angle = self.orientation_sensor.phi
-        print "rotating"
-        print initial_angle
+        self._status = "rotating right {2i}".format(angle)
         rotated = 0
         start = time.time()
         while abs(rotated) < abs(angle):
@@ -68,8 +66,6 @@ class Rover(object):
                 return 0
 
         self.motors.stop()
-        print self.orientation_sensor.phi
-        print rotated
         return 1
 
     def turn(self, turning, angle=30):
@@ -92,14 +88,28 @@ class Rover(object):
     def stop(self):
         self.motors.stop()
         self.sensor_array.stop_thread()
+        self._stop_log()
 
-    def _update_log(self, message, visual=True):
+    def _update_log(self, visual=True):
         entry = (self._status,
                  self.orientation_sensor.phi,
                  self.distances)
         self._log.append(entry)
         if visual:
             print entry
+
+    def _maintain_log(self):
+        while self.threaded_log:
+            self._update_log(True)
+            time.sleep(0.5)
+
+    def _start_log(self):
+        self._threaded_log = True
+        self.thread = threading.Thread(target=self._maintain_log)
+        self.thread.start()
+
+    def _stop_log(self):
+        self._threaded_log = False
 
 if __name__ == "__main__":
     rover = Rover()

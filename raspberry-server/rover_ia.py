@@ -13,6 +13,7 @@ class Rover_IA(Rover):
         prev = time.time()
         self.prev_random = prev
         self.sensor_array.start_thread()
+        self._start_log()
         self.sensor_array.measure_distances()
         prev_distances = self.sensor_array.distances
         turning = 0
