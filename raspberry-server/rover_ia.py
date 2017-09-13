@@ -1,5 +1,6 @@
 from rover import Rover
 import time
+from numpy.random import normal
 
 class Rover_IA(Rover):
     """Creates the IA to control the Rover
@@ -24,7 +25,8 @@ class Rover_IA(Rover):
                 prev_distances = self.distances[:]
             if min(self.distances) < self.colision_distance:
                 try:
-                    turning = self.turn(turning)
+                    angle = abs(normal(30,15))
+                    turning = self.turn(turning, angle=angle)
                 except IOError:
                     self.orientation_sensor.restart()
             elif max(self.distances) > 3000:
@@ -34,7 +36,8 @@ class Rover_IA(Rover):
             if (time.time()-self.prev_random) > self.random_time:
                 self.motors.backward(self.power, 5*self.time_step)
                 try:
-                    self.turn(0)
+                    angle = abs(normal(30,15))
+                    self.turn(0, angle=angle)
                 except IOError:
                     self.orientation_sensor.restart()
                 self.prev_random = time.time()
