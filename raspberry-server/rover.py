@@ -99,7 +99,7 @@ class Rover(object):
             print entry
 
     def _maintain_log(self):
-        while self.threaded_log:
+        while self._threaded_log:
             self._update_log(True)
             time.sleep(0.5)
 
