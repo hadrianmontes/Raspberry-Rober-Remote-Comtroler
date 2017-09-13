@@ -17,12 +17,22 @@ class Rover(object):
         self.random_time = random_time
         self.velocity = None
         self.colision_distance = 30
-        self.orientation_sensor = Orientaion_sensor(tty=tty)
         self._log = []
         self._threaded_log = False
         self._status = ""
         atexit.register(self.stop)
+
+        # Sensors
+        self.orientation_sensor = Orientaion_sensor(tty=tty)
         self.sensor_array = Sensor_array(*sensor_array)
+
+    def _init_sensors_daemons(self):
+        self.orientation_sensor.init_daemon()
+        self.sensor_array.start_thread()
+
+    def _stop_sensors_daemons(self):
+        self.orientation_sensor.stop_daemon()
+        self.sensor_array.stop_thread()
 
     def rotate(self, angle, power_multiplication=0.5):
         """
@@ -87,7 +97,7 @@ class Rover(object):
 
     def stop(self):
         self.motors.stop()
-        self.sensor_array.stop_thread()
+        self._stop_sensors_daemons()
         self._stop_log()
 
     def _update_log(self, visual=True):

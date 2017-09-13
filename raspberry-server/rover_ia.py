@@ -10,10 +10,12 @@ class Rover_IA(Rover):
         super(Rover_IA, self).__init__(**kwargs)
 
     def run(self):
+
+        self._init_sensors_daemons()
+        self._start_log()
+        
         prev = time.time()
         self.prev_random = prev
-        self.sensor_array.start_thread()
-        self._start_log()
         self.sensor_array.measure_distances()
         prev_distances = self.sensor_array.distances
         turning = 0
