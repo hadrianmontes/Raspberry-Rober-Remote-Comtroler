@@ -13,6 +13,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
     def handle(self):
         self.data = self.request.recv(1024).split()
+        print(self.data)
         command = self.data[0]
         if command == "move":
             self.move_robot()
@@ -29,7 +30,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             self.data=["move","0","0"]
             self.move_robot()
         # print self.data
-        self.request.sendall("1")
+        self.request.sendall("1".encode())
 
     def move_robot(self):
         try:

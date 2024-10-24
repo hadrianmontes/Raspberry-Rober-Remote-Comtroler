@@ -35,10 +35,10 @@ class PS4Controller(object):
         self.controller.init()
         self.x=0
         self.y=0
+        self.axis_data = None
 
     def listen(self):
         """Listen for events to happen"""
-
         if not self.axis_data:
             self.axis_data = {}
 
@@ -65,9 +65,9 @@ class PS4Controller(object):
         axis=self.axis_data
 
         if 0 in axis:
-            self.x=axis[0]
-            self.y=-axis[1]
-
+            self.x=axis["value"]
+        if 1 in axis:
+            self.y=axis["value"]
         # Turbo
         if self.button_data[7]:
             self.x*=2
@@ -103,9 +103,9 @@ if __name__=="__main__":
         sock.connect((HOST, PORT))
         info = ps4.listen()
         if info == "exit":
-            sock.sendall(info)
+            sock.sendall(info.encode())
             received = sock.recv(1024)
             break
-        sock.sendall(info)
+        sock.sendall(info.encode())
         received = sock.recv(1024)
     sock.close()
