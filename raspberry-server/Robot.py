@@ -45,7 +45,7 @@ class Robot(object):
         speed = abs(speed)
         speed += self._left_trim
         speed = max(0, min(255, speed))  # Constrain speed to 0-255 after trimming.
-        self._left.throttle(sign*speed/255)
+        self._left.throttle = sign*speed/255
 
     def _right_speed(self, speed):
         """Set the speed of the left motor, taking into account its trim offset.
@@ -55,7 +55,7 @@ class Robot(object):
         speed = abs(speed)
         speed += self._left_trim
         speed = max(0, min(255, speed))  # Constrain speed to 0-255 after trimming.
-        self._right.throttle(sign*speed/255)
+        self._right.throttle = sign*speed/255
 
     def stop(self):
         """Stop all movement."""
