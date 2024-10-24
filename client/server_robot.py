@@ -95,7 +95,7 @@ if __name__=="__main__":
     ps4.init()
 
     global otraip
-    otraip = "192.168.0.19"
+    otraip = "192.168.1.53"
 
     HOST, PORT = otraip, 9999
     while True:
