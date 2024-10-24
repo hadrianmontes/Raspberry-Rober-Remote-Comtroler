@@ -1,9 +1,9 @@
 import sys
 import Robot
-import SocketServer
+import socketserver
 import time
 import subprocess
-class MyTCPHandler(SocketServer.BaseRequestHandler):
+class MyTCPHandler(socketserver.BaseRequestHandler):
     """
     The request handler class for our server.
 
