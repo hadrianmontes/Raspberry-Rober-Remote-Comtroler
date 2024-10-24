@@ -65,9 +65,9 @@ class PS4Controller(object):
         axis=self.axis_data
 
         if 0 in axis:
-            self.x=axis["value"]
+            self.x=axis[0]
         if 1 in axis:
-            self.y=axis["value"]
+            self.y=axis[1]
         # Turbo
         if self.button_data[7]:
             self.x*=2
