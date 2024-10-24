@@ -28,3 +28,7 @@ class LineFollower(object):
                 self.motors.right(self.power, self.timestep)
             else:
                 self.motors.left(self.power, self.timestep)
+                
+if __name__ == '__main__':
+    line = LineFollower()
+    line.run()
