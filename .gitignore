@@ -1,2 +1,4 @@
 /raspberry-server/*\\~
 /raspberry-server/*~
+env/**
+**.pyc
