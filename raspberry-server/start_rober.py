@@ -34,7 +34,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
     def move_robot(self):
         try:
-            vx,vy=[int(255*float(i)*vmax) for i in self.data[1:]]
+            vx,vy=[int(float(i)*vmax) for i in self.data[1:]]
         except:
             vx, vy = 0, 0
         vx/=2
