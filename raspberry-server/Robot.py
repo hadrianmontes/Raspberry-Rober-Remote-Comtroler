@@ -117,8 +117,8 @@ class Robot(object):
     def custom(self,vx,vy,seconds=None):
         # if vy < 0:
         # Set motor speed and move both forward.
-        v1=int(vy+vx)
-        v2=int(vy-vx)
+        v1=int((vy+vx)/2)
+        v2=int((vy-vx/2))
         self._left_speed(v1)
         self._right_speed(v2)
         
