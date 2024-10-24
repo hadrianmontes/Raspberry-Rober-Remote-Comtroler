@@ -43,8 +43,8 @@ class Robot(object):
         assert abs(speed) <= 255, 'Speed must be a value between 0 to 255 inclusive!'
         sign = 1 if speed > 0 else -1
         speed = abs(speed)
-        speed += self._left_trim
-        speed = max(0, min(255, speed))  # Constrain speed to 0-255 after trimming.
+        if speed != 0:
+            speed = self._left_trim + (speed)*(255-self._left_trim)/255
         self._left.throttle = sign*speed/255
 
     def _right_speed(self, speed):
@@ -53,8 +53,8 @@ class Robot(object):
         assert abs(speed) <= 255, 'Speed must be a value between 0 to 255 inclusive!'
         sign = 1 if speed > 0 else -1
         speed = abs(speed)
-        speed += self._left_trim
-        speed = max(0, min(255, speed))  # Constrain speed to 0-255 after trimming.
+        if speed != 0:
+            speed = self._right_trim + (speed)*(255-self._right_trim)/255# Constrain speed to 0-255 after trimming.
         self._right.throttle = sign*speed/255
 
     def stop(self):
